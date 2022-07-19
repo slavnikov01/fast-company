@@ -10,7 +10,14 @@ function App() {
   };
 
   const handleToggleBookMark = (id) => {
-    return "fill";
+    setUsers(
+      users.map((user) => {
+        if (user._id === id) {
+          return { ...user, bookmark: !user.bookmark };
+        }
+        return user;
+      })
+    );
   };
 
   return (
@@ -21,7 +28,7 @@ function App() {
         users={users}
         onHandleDelete={handleDelete}
         length={users.length}
-        onHandleToggleBookMark={handleToggleBookMark}
+        onToggleBookMark={handleToggleBookMark}
       />
     </>
   );

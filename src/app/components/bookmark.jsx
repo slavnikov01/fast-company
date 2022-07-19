@@ -1,10 +1,10 @@
 import React from "react";
 
-const BookMark = (props) => {
+const BookMark = ({ status, onToggleBookMark, id }) => {
   return (
     <i
-      className={"bi bi-bookmark-" + props.onHandleToggleBookMark()}
-      onClick={() => props.onHandleToggleBookMark(props._id)}
+      onClick={() => onToggleBookMark(id)}
+      className={"bi bi-bookmark" + (status ? "-fill" : "")}
     ></i>
   );
 };
