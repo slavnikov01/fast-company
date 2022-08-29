@@ -1,48 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../api";
+import QualitiesList from "./qualitiesList";
 import { useHistory } from "react-router-dom";
 
 const UserPage = ({ userId }) => {
+    const history = useHistory();
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     });
-
-    const history = useHistory();
-    const handleReturnAllUsers = () => {
+    const handleClick = () => {
         history.push("/users");
     };
     if (user) {
         return (
-            <>
-                <h1>{user.name}</h1>
+            <div>
+                <h1> {user.name}</h1>
                 <h2>Профессия: {user.profession.name}</h2>
-                <h3>
-                    {" "}
-                    Качества:
-                    {user.qualities.map((item) => (
-                        <span
-                            className={"badge m-1 bg-" + item.color}
-                            key={item._id}
-                        >
-                            {item.name}
-                        </span>
-                    ))}
-                </h3>
-                <h3>Количество встреч: {user.completedMeetings}</h3>
-                <h2>Рейтинг: {user.rate}</h2>
-                <button
-                    onClick={() => {
-                        handleReturnAllUsers();
-                    }}
-                >
-                    Все пользователи
-                </button>
-            </>
+                <QualitiesList qualities={user.qualities} />
+                <p>completedMeetings: {user.completedMeetings}</p>
+                <h2>Rate: {user.rate}</h2>
+                <button onClick={handleClick}> Все Пользователи</button>
+            </div>
         );
     } else {
-        return <h1>Loading...</h1>;
+        return <h1>Loading</h1>;
     }
 };
 

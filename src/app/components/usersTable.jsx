@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import BookMark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
@@ -18,7 +19,7 @@ const UserTable = ({
             path: "name",
             name: "Имя",
             component: (user) => (
-                <Link to={`users/${user._id}`}>{user.name}</Link>
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
             )
         },
         qualities: {
@@ -69,4 +70,5 @@ UserTable.propTypes = {
     onToggleBookMark: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired
 };
+
 export default UserTable;

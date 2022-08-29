@@ -7,7 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
-const Users = () => {
+const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -40,7 +40,7 @@ const Users = () => {
     }, [selectedProf]);
 
     const handleProfessionSelect = (item) => {
-        setSelectedProf(item);
+        searchTerm ? setSearchTerm("") : setSelectedProf(item);
     };
 
     const handlePageChange = (pageIndex) => {
@@ -49,9 +49,17 @@ const Users = () => {
     const handleSort = (item) => {
         setSortBy(item);
     };
+    // ПОИСК
+    const [searchTerm, setSearchTerm] = useState("");
+    const handleChange = (event) => {
+        setSelectedProf(undefined);
+        setSearchTerm(event.target.value);
+    };
 
     if (users) {
-        const filteredUsers = selectedProf
+        const filteredUsers = searchTerm
+            ? users.filter((user) => user.name.includes(searchTerm))
+            : selectedProf
             ? users.filter(
                   (user) =>
                       JSON.stringify(user.profession) ===
@@ -84,12 +92,18 @@ const Users = () => {
                             onClick={clearFilter}
                         >
                             {" "}
-                            Очистить
+                            Очиститть
                         </button>
                     </div>
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={handleChange}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
@@ -113,8 +127,8 @@ const Users = () => {
     }
     return "loading...";
 };
-Users.propTypes = {
+UsersList.propTypes = {
     users: PropTypes.array
 };
 
-export default Users;
+export default UsersList;

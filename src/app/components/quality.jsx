@@ -8,4 +8,5 @@ Quality.propTypes = {
     name: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired
 };
+
 export default Quality;
